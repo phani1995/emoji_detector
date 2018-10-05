@@ -14,15 +14,18 @@ dataset = dataset.drop('temp',axis = 1) # Dropping unessary axis
 
 # Classes of dataset
 classes = list(set(dataset['label']))
+classes = list(set([ele.lower() for ele in classes]))
+
+print(classes)
 
 # Loading all Images and Labels
 from keras.utils import normalize
-images_dir = path.abspath(r'..\images') # Images directory
+images_dir = path.abspath(r'..\data\images') # Images directory
 images_array = [] # Empty images array 
 labels_array = [] # Empty labels array
 for index, row in dataset.iterrows():
-    labels_array.append(row['label'])
-    #print(path.join(images_dir,row['file_name']),cv2.IMREAD_COLOR)
+    labels_array.append(row['label'].lower())
+    print(path.join(images_dir,row['file_name']),cv2.IMREAD_COLOR)
     image = cv2.imread(path.join(images_dir,row['file_name']),cv2.IMREAD_COLOR)
     #print(np.shape(image))
     resized = cv2.resize(image, (32,32), interpolation = cv2.INTER_CUBIC )
